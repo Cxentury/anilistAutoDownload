@@ -1,0 +1,22 @@
+{
+  "name": "anilistautodownload",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cxentury/anilistAutoDownload.git"
+  },
+  "author": "Cxentury",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Cxentury/anilistAutoDownload/issues"
+  },
+  "homepage": "https://github.com/Cxentury/anilistAutoDownload#readme",
+  "dependencies": {
+    "graphql": "^16.6.0"
+  }
+}
