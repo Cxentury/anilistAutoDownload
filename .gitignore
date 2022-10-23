@@ -1,3 +1,6 @@
+#conf files
+conf/
+
 # Logs
 logs
 *.log

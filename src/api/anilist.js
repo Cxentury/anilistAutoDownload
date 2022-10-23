@@ -1,4 +1,5 @@
 var { graphql, buildSchema } = require("graphql");
+const fetch = require('cross-fetch');
 
 function getQuery(status) {
   switch (status) {
@@ -13,10 +14,15 @@ function getQuery(status) {
                     }`;
     case "nextEpisode":
       return `query ($mediaId: Int) {
-                        AiringSchedule(mediaId: $mediaId,notYetAired:true){
-                            timeUntilAiring
-                        }
-                    }`;
+                Media(id:$mediaId,type: ANIME, status: RELEASING){
+                  title {
+                    romaji
+                  }
+                }
+                AiringSchedule(mediaId: $mediaId,notYetAired:true){
+                    timeUntilAiring
+                  }
+              }`;
     default:
       break;
   }
@@ -54,8 +60,8 @@ function getOption(status, variable) {
 
 // Make the HTTP Api request
 module.exports = {
-  getCurrentAnime: async function () {
-    return fetch(url, getOption("airing", "Shimoseka"))
+  getCurrentAnime: async function (user) {
+    return fetch(url, getOption("airing", user))
       .then(handleResponse)
       .then(handleData)
       .catch(handleError);
@@ -75,11 +81,10 @@ function handleResponse(response) {
 }
 
 function handleData(data) {
-  //   console.log(data.data.Page);
   return data.data;
 }
 
 function handleError(error) {
-  // alert('Error, check console');
-//   console.error(error);
+  //This is gonna print if the anime in "currently watching is not currently airing"
+  console.log(error);
 }
