@@ -1,0 +1,1 @@
+You need to rename this folder to 'conf' and modify the informations in the .js files according to your settings

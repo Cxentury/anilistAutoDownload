@@ -5,7 +5,7 @@ var db = require("./api/mariadb");
 var nyaa = require("./api/nyaa");
 var qbittorent = require("./api/qbittorent-nox");
 //UserName in anilist
-const {user} = require("./conf/anilistConf");
+const { user } = require("./conf/anilistConf");
 
 //Uploader of the torrent
 const uploader = "Tsundere-Raws"
@@ -34,7 +34,7 @@ async function checkNewEpisodes() {
       db.insertAnime(mediaId, time["Media"]["title"].romaji, nextEpisodeDate, false);
     }
     else {
-      
+
       date = Date.parse(currentShow[0].nextAiringEpisode + " UTC") + (delay * 60 * 60 * 1000);
       if (date <= Date.now()) {
         //Starts download
@@ -71,6 +71,13 @@ function getNexAiringEpisodeDate(nextEpisode) {
   return date.toJSON().slice(0, 19).replace('T', ' ');
 }
 
-checkNewEpisodes();
+async function execute() {
+  while (true) {
+    checkNewEpisodes();
+    await new Promise(resolve => setTimeout(resolve, 3600000));
+  }
+}
+
+execute();
 //Does not work on async function, might put a  sleep in checkNewEpisode
 //var timer=setInterval(await checkNewEpisodes(),3600000);
