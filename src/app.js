@@ -1,18 +1,15 @@
+//Api
 var anilistApi = require("./api/anilist");
 const { getShow } = require("./api/mariadb");
 const mariadb = require("./api/mariadb");
 var db = require("./api/mariadb");
 var nyaa = require("./api/nyaa");
 var qbittorent = require("./api/qbittorent-nox");
-//UserName in anilist
-const { user } = require("./conf/anilistConf");
-//where to save episodes
-const { savePath } = require("./conf/systemConf");
 
-//Uploader of the torrent
-const uploader = "Tsundere-Raws"
-//Torrents are usually uploaded ~1.5h to ~2h after episode aired
-const delay = 1.5
+//Config
+const { user } = require("./conf/anilistConf");
+const { savePath } = require("./conf/systemConf");
+const {uploader, delay} = require("./conf/nyaaSiConf");
 
 async function checkNewEpisodes() {
   var airing = await anilistApi.getCurrentAnime(user);

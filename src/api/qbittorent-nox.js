@@ -1,20 +1,20 @@
 var FormData = require('form-data');
 const axios = require('axios');
-const { username, password } = require('../conf/qbittorent-noxConf');
+const { username, password, port } = require('../conf/qbittorent-noxConf');
 
 let cookie;
-const apiBase = "http://localhost:9090/api/v2"
+const apiBase = `http://localhost:${port}/api/v2`
 
 async function updateCookie() {
     await axios.post(
-        'http://localhost:9090/api/v2/auth/login',
+        `${apiBase}/auth/login`,
         new URLSearchParams({
             'username': username,
             'password': password
         }),
         {
             headers: {
-                'Referer': 'http://localhost:9090'
+                'Referer': `http://localhost:${port}`
             }
         }
     )

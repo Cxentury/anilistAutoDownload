@@ -1,4 +1,6 @@
 module.exports={
     username: 'qbittorentUser',
-    password: 'password'
+    password: 'password',
+    //Default qbittorent port
+    port: 8080
 }

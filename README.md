@@ -32,11 +32,16 @@ you'll also need to grant permission to the user using the database
 ```sql
 Grant all privileges on anilistAutoDl to 'user'@localhost IDENTIFIED BY 'password'
 ```
-Rename the folder *confGit* to *conf* and modify the informations in the .js file according to your settings (they are pretty explicit)
+Rename the folder *confGit* to *conf* and modify the information in the .js file according to your settings (they are pretty explicit).  
+There are a lot of config files with few information in them but it's to keep things clear and easily modifiable.
 
 ### Run
 
-Run the app.js using Nodejs (I don't know if a specific version is required, but it should work on any version present in an official repository).  
+
 `node app.js`  
-And run Qbittorent-nox (you need to check if the user running qbittorent has the permission to write in the savePath)  
+
+Run app.js using Nodejs (I don't know if a specific version is required, but it should work on any version present in an official repository).  
+
+You also need to run Qbittorent-nox (check if the user running qbittorent has the permission to write in the savePath)  
 On headless server you might want to use something like [screen](https://linux.die.net/man/1/screen) to keep the program running in the background
+There is a port parameter in 'qbittorent-noxConf' that you need to change if your qbittorent is not running on port 8080.
