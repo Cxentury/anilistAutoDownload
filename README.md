@@ -30,6 +30,7 @@ create table airing(mediaId int, title varchar(100),nextAiringEpisode DateTime, 
 you'll also need to grant permission to the user using the database  
 
 ```sql
+-- You technically don't need all privileges on the database, just update, insert and select
 Grant all privileges on anilistAutoDl to 'user'@localhost IDENTIFIED BY 'password'
 ```
 Rename the folder *confGit* to *conf* and modify the information in the .js file according to your settings (they are pretty explicit).  
