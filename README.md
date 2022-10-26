@@ -1,8 +1,8 @@
 # anilistAutoDownload
 
-This is mostly a project made for myself so the Readme might be incomplete, I just wrote it in case someone was interested (you can inform me if there are any missing information).
+This is a project made for myself so the Readme might be incomplete, I just wrote it in case someone was interested (you can inform me if there is any missing information).
 
-Auto downloads anime using torrents from nyaa.si.  
+Auto downloads anime you're currently watching on Anilist using torrents from nyaa.si.  
 made with [AnilistApi](https://anilist.gitbook.io/anilist-apiv2-docs/), [Nyaapi](https://github.com/Kylart/Nyaapi) and [Qbittorent-nox](https://github.com/qbittorrent/qBittorrent/wiki/WebUI-API-(qBittorrent-4.1))
 
 ***
