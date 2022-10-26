@@ -1,8 +1,8 @@
 # anilistAutoDownload
 
-This is mostly a project made for myself so the Readme might be incomplete, I just wrote it in case someone was interested (you can inform me if there are any missing information).
+This is a project made for myself so the Readme might be incomplete, I just wrote it in case someone was interested (you can inform me if there is any missing information).
 
-Auto downloads anime using torrents from nyaa.si.  
+Auto downloads anime you're currently watching on Anilist using torrents from nyaa.si.  
 made with [AnilistApi](https://anilist.gitbook.io/anilist-apiv2-docs/), [Nyaapi](https://github.com/Kylart/Nyaapi) and [Qbittorent-nox](https://github.com/qbittorrent/qBittorrent/wiki/WebUI-API-(qBittorrent-4.1))
 
 ***
@@ -43,5 +43,5 @@ There are a lot of config files with few information in them but it's to keep th
 Run app.js using Nodejs (I don't know if a specific version is required, but it should work on any version present in an official repository).  
 
 You also need to run Qbittorent-nox (check if the user running qbittorent has the permission to write in the savePath)  
-On headless server you might want to use something like [screen](https://linux.die.net/man/1/screen) to keep the program running in the background
+On headless server you might want to use something like [screen](https://linux.die.net/man/1/screen) to keep the program running in the background.  
 There is a port parameter in 'qbittorent-noxConf' that you need to change if your qbittorent is not running on port 8080.
