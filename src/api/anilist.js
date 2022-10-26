@@ -86,5 +86,5 @@ function handleData(data) {
 
 function handleError(error) {
   //This is gonna print if the anime in "currently watching is not currently airing"
-  console.log(error);
+  //console.log(error);
 }
