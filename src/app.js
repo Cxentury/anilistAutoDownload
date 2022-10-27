@@ -42,13 +42,13 @@ async function checkNewEpisodes() {
         //Starts download
         //TODO: check if episode not already downloaded in db just in case
         const magnet = await getMagnet(currentShow);
-        const rt=await getRetry(mediaId);
+        const rt = await getRetry(mediaId);
         if (magnet == -1 && rt[0].retry > 0) {
           removeRetry(mediaId);
           return;
         }
         await qbittorent.torrentsAddURLs([magnet], { savepath: savePath })
-          .then((data) => { console.log(data.headers); mariadb.updateDownload(mediaId, nextEpisodeDate, true) })
+          .then((data) => mariadb.updateDownload(mediaId, nextEpisodeDate, true))
           .catch(err => console.log(err));
       }
     }
@@ -62,7 +62,7 @@ async function getMagnet(currentShow) {
   //Checks if fileSize is a number
   if (Number.isNaN(Number.parseFloat(nyaaInfo[0].filesize.split(' ')[0])))
     return -1;
-  if (parseFloat(nyaaInfo[0].filesize.split(' ')[0]) > 2 || !nyaaInfo[0].name.includes(uploader))
+  if ((parseFloat(nyaaInfo[0].filesize.split(' ')[0]) > 2 && !nyaaInfo[0].filesize.includes("MiB")) || !nyaaInfo[0].name.includes(uploader))
     return -1;
 
   return nyaaInfo[0].magnet
