@@ -1,6 +1,6 @@
 //Api
 var anilistApi = require("./api/anilist");
-const { getShow } = require("./api/mariadb");
+const { getShow, getRetry, removeRetry } = require("./api/mariadb");
 const mariadb = require("./api/mariadb");
 var db = require("./api/mariadb");
 var nyaa = require("./api/nyaa");
@@ -9,11 +9,11 @@ var qbittorent = require("./api/qbittorent-nox");
 //Config
 const { user } = require("./conf/anilistConf");
 const { savePath } = require("./conf/systemConf");
-const {uploader, delay} = require("./conf/nyaaSiConf");
+const { uploader, delay } = require("./conf/nyaaSiConf");
 
 async function checkNewEpisodes() {
   var airing = await anilistApi.getCurrentAnime(user);
-  
+
   if (airing == undefined) {
     return;
   }
@@ -42,8 +42,13 @@ async function checkNewEpisodes() {
         //Starts download
         //TODO: check if episode not already downloaded in db just in case
         const magnet = await getMagnet(currentShow);
+        const rt=await getRetry(mediaId);
+        if (magnet == -1 && rt[0].retry > 0) {
+          removeRetry(mediaId);
+          return;
+        }
         await qbittorent.torrentsAddURLs([magnet], { savepath: savePath })
-          .then((data) => mariadb.updateDownload(mediaId, nextEpisodeDate, true))
+          .then((data) => { console.log(data.headers); mariadb.updateDownload(mediaId, nextEpisodeDate, true) })
           .catch(err => console.log(err));
       }
     }
@@ -81,5 +86,3 @@ async function execute() {
 }
 
 execute();
-//Does not work on async function, might put a  sleep in checkNewEpisode
-//var timer=setInterval(await checkNewEpisodes(),3600000);

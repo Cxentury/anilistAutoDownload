@@ -7,5 +7,7 @@ module.exports = {
         password: 'password',
         database: 'anilistAutoDl',
         connectionLimit: 5
-    })
+    }),
+    //Number of retries allowed before giving up on downloading an episode
+    retry: 3
 }
