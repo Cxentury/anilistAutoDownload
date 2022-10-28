@@ -13,8 +13,11 @@ function getQuery(status) {
                         }
                     }`;
     case "nextEpisode":
+      /*status: RELEASING has been remove from parameters because of the following reason
+      an anime is not considered RELEASING if he does not have at least one episode aired
+      so the first episode of a show won't be downloaded*/
       return `query ($mediaId: Int) {
-                Media(id:$mediaId,type: ANIME, status: RELEASING){
+                Media(id:$mediaId,type: ANIME){
                   title {
                     romaji
                   }
