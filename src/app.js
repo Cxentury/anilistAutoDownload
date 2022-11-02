@@ -35,22 +35,20 @@ async function checkNewEpisodes() {
     if (!currentShow[0]) {
       db.insertAnime(mediaId, time["Media"]["title"].romaji, nextEpisodeDate, false);
     }
-    else {
 
-      date = Date.parse(currentShow[0].nextAiringEpisode + " UTC") + (delay * 60 * 60 * 1000);
-      if (date <= Date.now()) {
-        //Starts download
-        const magnet = await getMagnet(currentShow);
-        const rt = await getRetry(mediaId);
-        if (magnet == -1 && rt[0].retry > 0) {
-          removeRetry(mediaId);
-          return;
-        }
-
-        await qbittorent.torrentsAddURLs([magnet], { savepath: savePath })
-          .then((data) => mariadb.updateDownload(mediaId, nextEpisodeDate, true))
-          .catch(err => console.log(err));
+    date = Date.parse(currentShow[0].nextAiringEpisode) + (delay * 60 * 60 * 1000);
+    if (date <= Date.now()) {
+      //Starts download
+      const magnet = await getMagnet(currentShow);
+      const rt = await getRetry(mediaId);
+      if (magnet == -1 && rt[0].retry > 0) {
+        removeRetry(mediaId);
+        return;
       }
+
+      await qbittorent.torrentsAddURLs([magnet], { savepath: savePath })
+        .then((data) => mariadb.updateDownload(mediaId, nextEpisodeDate, true))
+        .catch(err => console.log(err));
     }
   }
 
@@ -59,6 +57,8 @@ async function checkNewEpisodes() {
 async function getMagnet(currentShow) {
 
   let nyaaInfo = await nyaa.search(currentShow[0].title);
+  if (nyaaInfo[0] == undefined)
+    return -1;
   //Checks if fileSize is a number
   if (Number.isNaN(Number.parseFloat(nyaaInfo[0].filesize.split(' ')[0])))
     return -1;
