@@ -43,9 +43,9 @@ async function checkNewEpisodes() {
       const rt = await getRetry(mediaId);
       if (magnet == -1 && rt[0].retry > 0) {
         removeRetry(mediaId);
-        return;
+        continue;
       }
-
+      
       await qbittorent.torrentsAddURLs([magnet], { savepath: savePath })
         .then((data) => mariadb.updateDownload(mediaId, nextEpisodeDate, true))
         .catch(err => console.log(err));
