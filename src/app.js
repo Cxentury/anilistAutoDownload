@@ -13,39 +13,50 @@ const { uploader, delay } = require("./conf/nyaaSiConf");
 
 async function checkNewEpisodes() {
   var airing = await anilistApi.getCurrentAnime(user);
-
+  //AnilistApi will block you if you send too much request too fast
+  
   if (airing == undefined) {
+    console.error("Error getting user's anime");
     return;
   }
-
+  
+  console.log("New check for episodes at ",new Date(Date.now()));
   let date = new Date();
   let mediaId, currentShow;
-
-  //airing.Page.mediaList.length
+  
   for (let index = 0; index < airing.Page.mediaList.length; index++) {
-
+    
     mediaId = airing.Page.mediaList[index]["mediaId"];
     currentShow = await getShow(mediaId);
-
     const time = await anilistApi.getTimeTillNextEpisode(mediaId)
-    if (time == undefined) continue;
-    let nextEpisodeDate = getNexAiringEpisodeDate(time)
+    await new Promise(resolve => setTimeout(resolve, 10000));
 
+    if (time == undefined){
+      console.log("time undefined for",mediaId);
+      continue;
+    }
+    //this might cause last episode of serie not to dl
+    let nextEpisodeDate = getNexAiringEpisodeDate(time)
+    
     //If show already exist we don't want to insert it again
     if (!currentShow[0]) {
       db.insertAnime(mediaId, time["Media"]["title"].romaji, nextEpisodeDate, false);
     }
 
     date = Date.parse(currentShow[0].nextAiringEpisode) + (delay * 60 * 60 * 1000);
+    console.log("Checking date",currentShow[0].title,new Date(date),new Date(Date.now()),date <= Date.now());
     if (date <= Date.now()) {
+      console.log(currentShow[0].title," -> To download");
       //Starts download
       const magnet = await getMagnet(currentShow);
       const rt = await getRetry(mediaId);
+
+      if(magnet==-1) 
+        console.log("Could not download",currentShow[0].title,"removing 1 retry","\n Time episode aired: ",currentShow[0].nextAiringEpisode,"Current Time",new Date(Date.now()));
       if (magnet == -1 && rt[0].retry > 0) {
         removeRetry(mediaId);
         continue;
       }
-      
       await qbittorent.torrentsAddURLs([magnet], { savepath: savePath })
         .then((data) => mariadb.updateDownload(mediaId, nextEpisodeDate, true))
         .catch(err => console.log(err));
