@@ -1,3 +1,4 @@
 module.exports= {
-    user: "anilistUserName"
+    //Your anilist username
+    user: ""
 }

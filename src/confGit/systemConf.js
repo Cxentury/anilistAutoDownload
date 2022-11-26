@@ -1,3 +1,4 @@
 module.exports={
-    savePath: "/home/user/..."
+    //Where you want your animes to be downloaded
+    savePath: ""
 }

@@ -24,6 +24,7 @@ function getQuery(status) {
                 }
                 AiringSchedule(mediaId: $mediaId,notYetAired:true){
                     timeUntilAiring
+                    episode
                   }
               }`;
   }

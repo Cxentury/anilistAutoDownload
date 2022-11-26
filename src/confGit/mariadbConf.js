@@ -1,5 +1,5 @@
 const mariadb = require('mariadb');
-
+//Change those parameters according to your setup
 module.exports = {
     pool: mariadb.createPool({
         host: 'localhost',
