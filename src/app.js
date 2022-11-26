@@ -25,7 +25,7 @@ async function checkNewEpisodes() {
   let date = new Date();
   let mediaId, currentShow;
   
-  for (let index = 5; index < airing.Page.mediaList.length; index++) {
+  for (let index = 0; index < airing.Page.mediaList.length; index++) {
     
     mediaId = airing.Page.mediaList[index]["mediaId"];
     currentShow = await getShow(mediaId);
